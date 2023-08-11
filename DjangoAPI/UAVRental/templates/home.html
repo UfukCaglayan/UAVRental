@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+ 
+{% block title %}Login{% endblock %}
+ 
+{% block content %}
+   {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+      <a href="/signout" class="btn btn-danger">Logout</a>
+    {% else %}
+      <a href="/signin" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>Login</a> 
+      <a href="/signup" class="btn btn-success">Signup</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if uav_list %}
+    <table id="table" class="table table-bordered table-striped">
+        <thead>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Kategori</th>
+            <th>Kiralama</th>
+        </thead>
+        <tbody>
+        {% for uav in uav_list %}
+            <tr>
+                <td>{{uav.UavID}}</td>
+                <td>{{uav.Brand}}</td>
+                <td>{{uav.Model}}</td>
+                <td>{{uav.Weight}}</td>
+                <td>{{uav.Image}}</td>
+                <td>{{uav.CategoryID}}</td>
+                <td><a href="{% url 'rental' uav.UavID %}" class="btn btn-outline-success" role="button">Kirala</a></td>
+               
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No uav record available</p>
+{% endif %}
+{% endblock %}

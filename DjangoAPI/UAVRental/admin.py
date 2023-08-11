@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Uavs
+from UAVRental.models import Uavs
+import django
 # Register your models here.
 
 

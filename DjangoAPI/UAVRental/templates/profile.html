@@ -6,7 +6,7 @@
    <h2>Hoşgeldin!</h2>
    {% if user.is_authenticated %}
       Merhaba {{ user.username }}
-      <a href="../index.html" class="btn btn-primary me-3">Anasayfa</a>
+      <a href="../" class="btn btn-primary me-3">Anasayfa</a>
       <a href="/signout" class="btn btn-danger">Çıkış</a>
     {% else %}
       <a href="/signin" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>Login</a> 

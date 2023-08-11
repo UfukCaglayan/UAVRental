@@ -1,0 +1,26 @@
+{% extends 'rentalbase.html' %}
+{% block content %}
+<table id="rentaltable"  class="table table-bordered">
+    <thead class="alert-success">
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rental in rentals %}
+        <tr>
+            <td>{{ rental.BeginDate }}</td>
+            <td>{{ rental.BeginDate }}</td>
+            <td>{{ rental.BeginDate }}</td>
+            <td>{{ rental.BeginDate }}</td>
+            <td><center><a class="btn btn-sm btn-warning edit" name="{{ rental.RentalID }}">Düzenle</a> <a class="btn btn-sm btn-danger delete" name="{{ rental.RentalID }}">Güncelle</a></center></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

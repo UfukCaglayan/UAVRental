@@ -7,37 +7,7 @@
 <link rel = "stylesheet" type = "text/css" href = "https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script>
-    $(document).ready(function(){
-        if($('#result') != null){
-            Read();
-        }
-        
-     
-        $(document).on('click', '.edit', function(){
-            $id = $(this).attr('name');
-            window.location = "edit/" + $id;
-        });
-     
-       
-     
-      
-     
-    });
-     
-    function Read(){
-        $.ajax({
-      url: 'read',
-      type: 'POST',
-      async: false,
-      data:{
-       res: 1,
-       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-      },
-      success: function(response){
-       $('#result').html(response);
-      }
-        });
-    }
+   
 
     
 </script>

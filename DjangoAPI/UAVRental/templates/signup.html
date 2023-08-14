@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
  
 {% block content %}
-  <form method="post">
+<main class="form-signin">
+    <div class="row">
+      <div class="col-3" style="margin:auto;position: relative;">
+    <h2 class="text-center">Kayıt Ekranı</h2> {{ msg }}
+    <form method="post">
+        <div class="col-8" style="margin:auto;position: relative;">
     {% csrf_token %}
     {% for field in form %}
       <p>
@@ -12,6 +17,9 @@
         {% endfor %}
       </p>
     {% endfor %}
-    <button type="submit" class="btn btn-success">Kayıt Ol</button>
-  </form>
+    </div>
+    <button class="w-100 btn btn-success" type="submit">Kayıt</button>
+</form>
+</div>
+<div>
 {% endblock %}

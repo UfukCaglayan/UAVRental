@@ -1,0 +1,21 @@
+{% extends 'rentalbase.html' %}
+{% block content %}
+<div class="container" style="padding:20px;">
+    <div class="row">
+        <div class="col-md-10 col-xs-10 col-sm-10">
+            <form class="form-inline" action="deleteRental" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="RentalID" value="{{ rental.RentalID }}"/>
+                <input type="hidden" name="CustomerID" value="{{ request.user.id}}"/>
+                <div class="form-row">
+                  <div class="alert alert-warning">
+                  Kiralama kaydınızı silmek istediğinizden emin misiniz?
+                  </div>
+                </div>
+                <button type="submit" id="deleteRental" class="btn btn-danger mt-3">Sil</button>
+          
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

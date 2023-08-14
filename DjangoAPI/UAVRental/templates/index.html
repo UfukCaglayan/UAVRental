@@ -14,19 +14,53 @@
     <tbody>
     {% for uav in uav_list %}
         <tr>
-            
-            <td>{{uav.Brand}}</td>
-            <td>{{uav.Model}}</td>
+            <! Datatable ile İHA kayıtları for loop kullanılarak listelenmiştir. 
+            Tablolar arası ilişkinin kurulması için önce mevcut tablodaki ID alanıyla diğer tablolardaki Name bilgisine ulaşışmıştır--> 
+            <td>{{uav.BrandID.BrandName}}</td>
+            <td>{{uav.ModelID.ModelName}}</td>
             <td>{{uav.Weight}}</td>
-            <td>{{uav.Image}}</td>
-            <td>{{uav.CategoryID}}</td>
+            <! Resme tıklandığında modal içinde daha büyük bir şekilde görüntülenmesi sağlanmıştır.--> 
+            <td><img id="uavImg" data-toggle="modal" data-target="#exampleModal" src="{{uav.Image.url}}" alt="Resim" style="max-width:200px"></td>
+            <td>{{uav.CategoryID.CategoryName}}</td>
             <td><a href="{% url 'rental' uav.UavID %}" class="btn btn-outline-success" role="button">Kirala</a></td>
-           
+            <div class="modal fade" id="exampleModal" tabindex="-1"
+            role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title w-100"
+                            id="exampleModalLabel">
+                            İHA Resmi
+                        </h5>
+                        <button style="border: none;" type="button" class="close"
+                            data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                ×
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{uav.Image.url}}" width="800" height="300"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger"
+                            data-dismiss="modal">
+                            Kapat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </tr>
     {% endfor %}
+
     </tbody>
 </table>
+
 {% else %}
 {% endif %}
+
+
 {% endblock %}
 

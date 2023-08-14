@@ -17,7 +17,7 @@ Düzenleme işlemi yapılıp kaydete basıldığında tekrar kiralama kayıtlar�
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/e3f76245-f391-453b-b7ee-62b3d7c339ac)
 
-Sil butonuna tıklanıldığında ise kiralama kaydının silinmek istenildiğinden emin olunmasının sorulduğu sayfaya yönlendirilmektedir ve evete basıldığında mevcut kayıt silinmektedir.
+Sil butonuna tıklanıldığında ise kiralama kaydının silinmek istenildiğinden emin olunmasının sorulduğu sayfaya yönlendirme yapılmaktadır ve evete basıldığında mevcut kayıt silinmektedir.
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/6b114eb9-ff2c-4d97-8979-c38e8e849b32)
 

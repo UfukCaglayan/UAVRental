@@ -21,7 +21,7 @@ Sil butonuna tıklanıldığında ise kiralama kaydının silinmek istenildiğin
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/6b114eb9-ff2c-4d97-8979-c38e8e849b32)
 
-Admin panelinde marka, model ve kategori bilgilerinin kaydedilmesiyle beraber İHA'ların ekleme,güncellenme ve silme işlemleri yapılabilmektedir.
+Admin panelinde marka, model ve kategori bilgilerinin kaydedilmesiyle beraber İHA ekleme,güncelleme ve silme işlemleri yapılabilmektedir.
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/544fc2ba-029f-4326-bfbe-a4d9560124cf)
 
@@ -33,14 +33,13 @@ Kayıt Ekranı:
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/8a3f845a-2e6c-4628-9eeb-523a183c34f4)
 
-Profil Sayfası:
-
-![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/af0c4141-afea-43b5-b61a-c2898b4a1be1)
-
 
 Giriş Ekranı:
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/4c8d3729-313a-4f09-85c2-2ad0005caef1)
 
+Profil Sayfası:
+
+![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/af0c4141-afea-43b5-b61a-c2898b4a1be1)
 
 

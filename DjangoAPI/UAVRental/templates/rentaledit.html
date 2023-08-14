@@ -10,6 +10,7 @@
 
 <form class="form-inline" action="updateRental" method="POST">
     {% csrf_token %}
+  <! Kiralama bilgileri ilgili forma aktarılmıştır.--> 
     <input type="hidden" name="RentalID" value="{{ rental.RentalID }}"/>
     <input type="hidden" name="CustomerID" value="{{ request.user.id}}"/>
     <div class="container mt-3 form-group">
@@ -19,20 +20,12 @@
                 <p>
                     {{ rental.UavID.ModelID.ModelName }}
                 </p>
-        
-
-            
             <div class="mb-3">
-
                 <div class="mb-3"><label class="form-label" for="id_date">Başlangıç Zamanı</label><div class="input-group dbdp">
-               
                    <input class="form-control" placeholder="" name="BeginDate" type="datetime-local" id="BeginDate" value={{ rental.BeginDate }}>
 </div>
-
 <div class="mb-3">
-
  <div class="mb-3"><label class="form-label" for="id_date">Bitiş Zamanı</label><div class="input-group dbdp">
-
     <input class="form-control" placeholder="" name="EndDate" type="datetime-local" id="payment_due_at" value={{rental.EndDate}}>
         <script>
             $(document).ready(function() {

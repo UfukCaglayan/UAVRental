@@ -2,19 +2,29 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from UAVRental import views
+from django.conf.urls.static import static
+from django.conf import settings
  
 urlpatterns = [
     path('', views.index, name='index'),
+    path('index/', views.index, name='index'),
     path('signin/',views.signin),
     path('signout/',views.signout),
     path('signup/',views.signup),
     path('profile/',views.profile),
     path('rental/<int:id>', views.rental,name="rental"),
-    url('myrental/',views.myrental,name='myrental'),
-    url(r'^create$', views.create, name='create'),
-    url('rental/create$', views.create, name='create'),
-    url(r'^rental/create/$', views.create, name='create'),
+    path('myrental/<int:id>', views.myrental, name='myrental'),
+    path('rentaledit/<int:id>', views.editRental,name="editRental"),
+    path('confirmDelete/<int:id>', views.confirmDelete,name="confirmDelete"),
+    url('rental/createRental$', views.createRental, name='createRental'),
+    url('rentaledit/updateRental$', views.updateRental, name='updateRental'),
+    url('confirmDelete/deleteRental$', views.deleteRental, name='deleteRental'),
+] 
+# Sayfalar arası yönlendirme işlemlerinin yapılabilmesi için gerekli kodlar yazılmıştır. 
+# Viewsin içinde bulunan ve sayfalar için kullanılan metodlar aktif hale getirilmektedir.
 
-     url('myrental/', views.myrental, name='myrental'),
-    url(r'^myrental', views.myrental, name='myrental'),
-]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Resme tıklandığında açılması için gerekli maskeleme işlemi yapılmıştır.
+

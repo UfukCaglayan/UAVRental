@@ -4,7 +4,7 @@ Resme tıklanıldığında ise İHA resmi büyük bir şekilde görüntülenmekt
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/0bd6adc2-31c1-4d5b-89b5-33e53baa93ab)
 
-Listelenmiş olan IHA'ların yanında bulunan kirala butonuna basılarak tarih ve saatlerin seçilebileceği ekran açılmaktadır.
+Listelenmiş olan İHA'ların yanında bulunan kirala butonuna basılarak tarih ve saatlerin seçilebileceği ekran açılmaktadır.
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/22258c3c-c7ce-4ead-b414-61c308a83159)
 

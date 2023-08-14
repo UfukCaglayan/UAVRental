@@ -42,4 +42,17 @@ Profil Sayfası:
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/af0c4141-afea-43b5-b61a-c2898b4a1be1)
 
+Sisteme ait kayıtlar PostgreSQL veritabanında tutulmaktadır
+
+İHA kayıtları:
+
+![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/21bf3eba-eb34-4a76-a02d-38441f6571e4)
+
+
+Kiralama kayıtları:
+
+![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/8e9bb8dd-3ffc-4cfb-97d0-68d216017e2d)
+
+
+
 

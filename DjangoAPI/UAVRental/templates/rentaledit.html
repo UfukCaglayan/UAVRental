@@ -1,0 +1,61 @@
+{% extends 'rentalbase.html' %}
+
+{% block content %}
+
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" rel="stylesheet">
+  
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" media="all" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/eonasdan-bootstrap-datetimepicker@4.17.49/build/css/bootstrap-datetimepicker.min.css" media="all" rel="stylesheet">
+<link href="https://monim67.github.io/django-bootstrap-datepicker-plus/demo/static/bootstrap_datepicker_plus/css/datepicker-widget.css" media="all" rel="stylesheet">
+
+<form class="form-inline" action="updateRental" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="RentalID" value="{{ rental.RentalID }}"/>
+    <input type="hidden" name="CustomerID" value="{{ request.user.id}}"/>
+    <div class="container mt-3 form-group">
+        <div class="row">
+            <div class="col-3">
+                <h1 class="h3">{{ rental.UavID.BrandID.BrandName }}</h1>
+                <p>
+                    {{ rental.UavID.ModelID.ModelName }}
+                </p>
+        
+
+            
+            <div class="mb-3">
+
+                <div class="mb-3"><label class="form-label" for="id_date">Başlangıç Zamanı</label><div class="input-group dbdp">
+               
+                   <input class="form-control" placeholder="" name="BeginDate" type="datetime-local" id="BeginDate" value={{ rental.BeginDate }}>
+</div>
+
+<div class="mb-3">
+
+ <div class="mb-3"><label class="form-label" for="id_date">Bitiş Zamanı</label><div class="input-group dbdp">
+
+    <input class="form-control" placeholder="" name="EndDate" type="datetime-local" id="payment_due_at" value={{rental.EndDate}}>
+        <script>
+            $(document).ready(function() {
+       if (!Modernizr.touch || !Modernizr.inputtypes.date) {
+         $('input[type="datetime-local"]').each(function() {
+           var defaultVal = $(this).val();
+           console.log(this.name, defaultVal);
+           $(this).attr('type', 'text').val(moment(defaultVal).format('M/D/YYYY h:mm A')).datetimepicker({
+               format: 'M/D/YYYY h:mm A',
+               widgetPositioning: {
+                 horizontal: "bottom",
+                 vertical: "auto"
+               }
+             });
+         });
+       }
+     });
+            </script>
+    </div>
+    <button type="submit" id="updateRental" class="btn btn-primary mt-3">Kaydet</button>
+
+        </div>
+    </div>
+</form>
+
+{% endblock %}

@@ -16,6 +16,7 @@ def index(request):
     context = {'uav_list': uav_list}
     return render(request, 'index.html', context)
 
+
 #Formdan alınan bilgilerle kayıt işleminin yapılması
 def signup(request):
     if request.user.is_authenticated:

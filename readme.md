@@ -10,7 +10,7 @@ Listelenmiş olan IHA'ların yanında bulunan kirala butonuna basılarak tarih v
 
 Kiralama işleminden sonra kişiye ait mevcut kiralama kayıtları listelenmektedir.
 
-![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/04e0f79d-0fd9-4191-a15f-d0ba5893f986)
+![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/6a997b7d-6dbb-49d1-9498-858833de6e6c)
 
 Düzenle butonuna tıklandıktan sonra tarih ve saat bilgilerinin değiştirileceği ekran açılmaktadır.
 Düzenleme işlemi yapılıp kaydete basıldığında tekrar kiralama kayıtlarının görüntüleneceği sayfaya geçiş yapılmaktadır.
@@ -33,13 +33,14 @@ Kayıt Ekranı:
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/8a3f845a-2e6c-4628-9eeb-523a183c34f4)
 
+Profil Sayfası:
+
+![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/af0c4141-afea-43b5-b61a-c2898b4a1be1)
+
+
 Giriş Ekranı:
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/4c8d3729-313a-4f09-85c2-2ad0005caef1)
 
-
-Giriş Ekranı:
-
-![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/8fba8ee1-251e-4a18-9892-4d70b2b23d15)
 
 

@@ -1,6 +1,7 @@
 {% extends 'rentalbase.html' %}
 {% block content %}
 <table id="rentaltable"  class="table table-bordered">
+    <! Datatable ile kiralama kayıtları listelenmiştir.--> 
     <thead class="alert-success">
         <tr>
             <th>Marka</th>
@@ -13,11 +14,12 @@
     <tbody>
         {% for rental in rentals %}
         <tr>
+            <td>{{ rental.UavID.BrandID}}</td>
+            <td>{{ rental.UavID.ModelID }}</td>
             <td>{{ rental.BeginDate }}</td>
-            <td>{{ rental.BeginDate }}</td>
-            <td>{{ rental.BeginDate }}</td>
-            <td>{{ rental.BeginDate }}</td>
-            <td><center><a class="btn btn-sm btn-warning edit" name="{{ rental.RentalID }}">Düzenle</a> <a class="btn btn-sm btn-danger delete" name="{{ rental.RentalID }}">Güncelle</a></center></td>
+            <td>{{ rental.EndDate }}</td>
+            <td><center><a class="btn btn-sm btn-secondary" href="{% url 'editRental' rental.RentalID %}" role="button" name="{{ rental.RentalID }}">Düzenle</a> <a class="btn btn-sm btn-danger delete" href="{% url 'confirmDelete' rental.RentalID %}" role="button"  name="{{ rental.RentalID }}">Sil</a></center></td>
+        <! RentalID bilgisiyle düzenleme ve silme işlemlerinin yapılması sağlanmıştır--> 
         </tr>
         {% endfor %}
     </tbody>

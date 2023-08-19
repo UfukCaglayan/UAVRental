@@ -4,7 +4,9 @@ function saveCheckboxValues() {
 
     checkboxes.forEach(function (checkbox) {
         if (checkbox.checked) {
-            checkedValues.push(checkbox.id);
+            checkedValues.push(checkbox.id); /* Seçilen checkboxların id'leri kaydediliyor. 
+            View tarafında tıklanan checkbox'lara erişebilmek adına name'lerin aynı olması gerekiyordu.
+            Valueler eklendiğinde ise marka, model ve kategorilerin veritabanındaki id'leri aynı olduğunda seçilmeyen checkboxlarda işaretlenir. */ 
         }
     });
 
@@ -16,9 +18,9 @@ function loadCheckboxValues() {
 
     if (checkedValues) {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(function (checkbox) {
-            if (checkedValues.includes(checkbox.id)) {
-                checkbox.checked = true;
+        checkboxes.forEach(function (checkbox) { 
+            if (checkedValues.includes(checkbox.id)) { /* Daha önce tıklanmış olan checkbox'lara erişiliyor ve sayfa üzerinde işaretleniyor. */
+                checkbox.checked = true; 
             }
         });
     }
@@ -28,6 +30,6 @@ function UavFilter() {
     saveCheckboxValues();
 }
 
-$( document ).ready(function() {
+$(document).ready(function() {
     loadCheckboxValues();
 });

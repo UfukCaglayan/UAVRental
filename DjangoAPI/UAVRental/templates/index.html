@@ -1,66 +1,123 @@
 {% extends "base.html" %}
  
 {% block content %}
-{% if uav_list %}
-<table id="table" class="table table-bordered table-striped">
-    <thead>
-        <th>Marka</th>
-        <th>Model</th>
-        <th>Ağırlık</th>
-        <th>Resim</th>
-        <th>Kategori</th>
-        <th>Kiralama</th>
-    </thead>
-    <tbody>
-    {% for uav in uav_list %}
-        <tr>
-            <! Datatable ile İHA kayıtları for loop kullanılarak listelenmiştir. 
-            Tablolar arası ilişkinin kurulması için önce mevcut tablodaki ID alanıyla diğer tablolardaki Name bilgisine ulaşışmıştır.--> 
-            <td>{{uav.BrandID.BrandName}}</td>
-            <td>{{uav.ModelID.ModelName}}</td>
-            <td>{{uav.Weight}}</td>
-            <! Resme tıklandığında modal içinde daha büyük bir şekilde görüntülenmesi sağlanmıştır.--> 
-            <td><img id="uavImg" data-toggle="modal" data-target="#exampleModal" src="{{uav.Image.url}}" alt="Resim" style="max-width:200px"></td>
-            <td>{{uav.CategoryID.CategoryName}}</td>
-            <td><a href="{% url 'rental' uav.UavID %}" class="btn btn-outline-success" role="button">Kirala</a></td>
-            <div class="modal fade" id="exampleModal" tabindex="-1"
-            role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title w-100"
-                            id="exampleModalLabel">
-                            İHA Resmi
-                        </h5>
-                        <button style="border: none;" type="button" class="close"
-                            data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">
-                                ×
-                            </span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img src="{{uav.Image.url}}" width="800" height="300"/>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger"
-                            data-dismiss="modal">
-                            Kapat
-                        </button>
+
+<div class="row">
+
+<div class="col-2">
+
+    <form id="myForm" action="{% url 'index' %}" method="POST">
+    
+               
+        {% csrf_token %}
+        {% csrf_token %}
+        <h5>Marka</h5>
+        {% for brand in brand_list %}
+      
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="{{brand.BrandID}}" id="cbBrand{{brand.BrandID}}" name="cbBrand">
+            <label class="form-check-label" for="cbBrand">
+                {{brand.BrandName}}
+            </label>
+          </div>
+        {% endfor %}
+
+        <h5 class="pt-4">Model</h5>
+        {% for model in model_list %}
+      
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="{{model.ModelID}}" id="cbModel {{model.ModelID}}" name="cbModel">
+            <label class="form-check-label" for="cbModel">
+                {{model.ModelName}}
+            </label>
+          </div>
+        {% endfor %}
+
+        <h5 class="pt-4">Kategori</h5>
+        {% for category in category_list %}
+      
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="{{category.CategoryID}}" id="cbCategory{{category.CategoryID}}" name="cbCategory">
+            <label class="form-check-label" for="cbCategory">
+                {{category.CategoryName}}
+            </label>
+          </div>
+        {% endfor %}
+
+<button type="submit" name="btnFilter" id="btnFilter" onclick="UavFilter()" class="btn btn-primary mt-4">Filtrele</button>
+</form>
+
+
+      
+        {% for asd in size_ids %}
+       
+        {{"asd"}}
+
+        {% endfor %}
+   
+
+
+</div>
+<div class="col-10">
+    {% if uav_list %}
+    <table id="table" class="table table-bordered table-striped">
+        <thead>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Ağırlık</th>
+            <th>Resim</th>
+            <th>Kategori</th>
+            <th>Kiralama</th>
+        </thead>
+        <tbody>
+        {% for uav in uav_list %}
+            <tr>
+                <! Datatable ile İHA kayıtları for loop kullanılarak listelenmiştir. 
+                Tablolar arası ilişkinin kurulması için önce mevcut tablodaki ID alanıyla diğer tablolardaki Name bilgisine ulaşışmıştır--> 
+                <td>{{uav.BrandID.BrandName}}</td>
+                <td>{{uav.ModelID.ModelName}}</td>
+                <td>{{uav.Weight}}</td>
+                <! Kiralama işleminin yapılması için İHA ve müşteri bilgileri gizli bir şekilde tutulmuştur.--> 
+                <td><img id="uavImg" data-toggle="modal" data-target="#exampleModal" src="{{uav.Image.url}}" alt="Resim" style="max-width:200px"></td>
+                <td>{{uav.CategoryID.CategoryName}}</td>
+                <td><a href="{% url 'rental' uav.UavID %}" class="btn btn-outline-success" role="button">Kirala</a></td>
+                <div class="modal fade" id="exampleModal" tabindex="-1"
+                role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title w-100"
+                                id="exampleModalLabel">
+                                İHA Resmi
+                            </h5>
+                            <button style="border: none;" type="button" class="close"
+                                data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">
+                                    ×
+                                </span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{uav.Image.url}}" width="800" height="300"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger"
+                                data-dismiss="modal">
+                                Kapat
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </tr>
-    {% endfor %}
-
-    </tbody>
-</table>
-
+            </tr>
+        {% endfor %}
+    
+        </tbody>
+    </table>
+</div>
+</div>
 {% else %}
 {% endif %}
-
-
 {% endblock %}
 

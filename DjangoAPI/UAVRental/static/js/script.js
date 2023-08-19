@@ -1,20 +1,33 @@
+function saveCheckboxValues() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    let checkedValues = [];
 
-    var modal = document.getElementById("myModal");
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+            checkedValues.push(checkbox.id);
+        }
+    });
 
-    // Get the image and insert it inside the modal - use its "alt" text as a caption
-    var img = document.getElementById("myImg");
-    var modalImg = document.getElementById("img01");
-    var captionText = document.getElementById("caption");
-    img.onclick = function(){
-      modal.style.display = "block";
-      modalImg.src = this.src;
-      captionText.innerHTML = this.alt;
+    localStorage.setItem('checkedValues', JSON.stringify(checkedValues));
+}
+
+function loadCheckboxValues() {
+    const checkedValues = JSON.parse(localStorage.getItem('checkedValues'));
+
+    if (checkedValues) {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function (checkbox) {
+            if (checkedValues.includes(checkbox.id)) {
+                checkbox.checked = true;
+            }
+        });
     }
-    
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
+}
+
+function UavFilter() {
+    saveCheckboxValues();
+}
+
+$( document ).ready(function() {
+    loadCheckboxValues();
+});

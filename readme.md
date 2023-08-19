@@ -2,7 +2,7 @@ Yönetim panelinden sisteme İHA eklenebildiği sistemimizde kullanıcı girişl
 Giriş yapan kullanıcılar anasayfalarında, eklenmiş olan İHA'ları kiralama imkanına sahiptir.
 Resme tıklanıldığında ise İHA resmi büyük bir şekilde görüntülenmektedir.
 
-![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/0bd6adc2-31c1-4d5b-89b5-33e53baa93ab)
+![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/1691f0b1-ecf4-408b-9b0b-3f6edff45989)
 
 Listelenmiş olan İHA'ların yanında bulunan kirala butonuna basılarak tarih ve saatlerin seçilebileceği ekran açılmaktadır.
 

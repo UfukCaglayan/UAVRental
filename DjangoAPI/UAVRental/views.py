@@ -6,15 +6,38 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
-from django.shortcuts import HttpResponseRedirect
-from .models import Uav,Rental
+from .models import Uav,Rental,Brand,Model,Category
 from django.views.decorators.csrf import csrf_exempt
- 
+from django.forms import formset_factory
+from .forms import *
 #Site ilk açıldığında mevcut ihaların listelenmesi
 def index(request):
-    uav_list = Uav.objects.order_by('UavID')
-    context = {'uav_list': uav_list}
+    uav_list = Uav.objects.order_by('UavID') 
+    brand_list = Brand.objects.order_by('BrandID') #Filtreleme işlemleri için gerekli listeler dolduruluyor
+    model_list = Model.objects.order_by('ModelID')
+    category_list = Category.objects.order_by('CategoryID')
+    brand_ids = []
+    model_ids = []
+    category_ids = []
+    if request.method=="POST": 
+        brand_ids = request.POST.getlist('cbBrand') #Tıklanan markaların value (id) listesi alınıyor
+        model_ids = request.POST.getlist('cbModel')
+        category_ids = request.POST.getlist('cbCategory')
+        if len(brand_ids) == 0 and len(model_ids) == 0 and len(category_ids) == 0: #Hiçbir seçim yapılmadan filtreleme yapılırsa bütün İHA'lar getiriliyor 
+            uav_list = Uav.objects.order_by('UavID') 
+        else:
+            uav_list = Uav.objects.filter(BrandID__in = brand_ids) | Uav.objects.filter(ModelID__in = model_ids) | Uav.objects.filter(CategoryID__in = category_ids)
+                        #Filtreleme yapılarak id'si, tıklanan markaların id'si olan İHA'lar getiriliyor. Bu işlem model ve kategori içinde yapılıyor.
+      
+    context = {
+        'uav_list': uav_list,
+        'brand_list': brand_list,
+        'model_list': model_list,
+        'category_list': category_list,
+    }
     return render(request, 'index.html', context)
+
+  
 
 
 #Formdan alınan bilgilerle kayıt işleminin yapılması
@@ -121,8 +144,7 @@ def deleteRental(request):
     rental.delete()  
     return redirect('/myrental/' + request.POST['CustomerID'])
 
+
 #Admin kullanıcı kontrolü
 def isAdmin(user):
     return user.is_superuser
-
-

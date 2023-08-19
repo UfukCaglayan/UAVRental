@@ -47,16 +47,6 @@
 <button type="submit" name="btnFilter" id="btnFilter" onclick="UavFilter()" class="btn btn-primary mt-4">Filtrele</button>
 </form>
 
-
-      
-        {% for asd in size_ids %}
-       
-        {{"asd"}}
-
-        {% endfor %}
-   
-
-
 </div>
 <div class="col-10">
     {% if uav_list %}
@@ -117,7 +107,12 @@
     </table>
 </div>
 </div>
+
+
+
 {% else %}
 {% endif %}
+
+
 {% endblock %}
 

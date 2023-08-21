@@ -7,15 +7,15 @@
 <title>IHA Kiralama</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity= "sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"> </script>
-<script src= "https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity= "sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"> </script>
 <link rel = "stylesheet" type = "text/css" href = "https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
 {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
     <script type="text/javascript" src="{% static "js/script.js" %}"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+
+    
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,7 +31,7 @@
               </li>
             </ul>
             <form class="d-flex">
-              {% if user.is_authenticated %}
+              {% if user.is_authenticated %} <! Giriş kontrolü yapılarak sağ üstte görülecek olan butonlar belirlenmiştir--> 
               <a href="/profile" id="hrfProfil" class="btn btn-outline-success me-2" role="button">Profil</a>
               <a href="/signout" id="hrfCikis" class="btn btn-outline-success" role="button">Çıkış</a>
               {% else %}
@@ -53,15 +53,22 @@
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 <script src = "https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
-
+<! İHA kayıtlarının listelenmesi adına server-side yöntemiyle datatable kullanılmıştır.--> 
 <script type = "text/javascript">
 $(document).ready(function(){ 
-    $('#table').DataTable();
-});
-<! İHA kayıtlarının listelenmesi adına server-side yöntemiyle datatable kullanılmıştır.--> 
-
+  $('#table').DataTable(
+    { language: {
+        search: "Arama:",
+        "info" : "_TOTAL_ kayıttan _START_ ile _END_ arası gösteriliyor",
+        "lengthMenu":      "_MENU_ Kayıt Göster",
+        paginate: {
+          previous: 'Öncesi',
+          next:     'Sonrası'
+      }
+      }
+    })
+} );
 </script>
 </body>
 </html>

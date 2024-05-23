@@ -1,49 +1,32 @@
-from django.http import HttpResponse
-from django.template import loader
- 
-from django.shortcuts import get_object_or_404,render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import logout
-from .models import Uav,Rental,Brand,Model,Category
 from django.views.decorators.csrf import csrf_exempt
-from django.forms import formset_factory
-from .forms import *
-from django.core.mail import send_mail
-from django.contrib.auth.models import User
+from .models import Uav, Rental, Brand, Model, Category
 from .forms import CustomUserCreationForm
-from datetime import datetime
-import pytz
-import pika
-from django.utils.dateparse import parse_datetime
-from .tasks import send_email_task
 from django.utils import timezone
+from .tasks import send_email_task
 from datetime import datetime
-import os
-import pandas as pd
-from django.conf import settings
-from openpyxl import load_workbook
 
-#Site ilk açıldığında mevcut ihaların listelenmesi
+# Site ilk açıldığında mevcut İHA'ların listelenmesi
 def index(request):
-    uav_list = Uav.objects.order_by('UavID') 
-    brand_list = Brand.objects.order_by('BrandID') #Filtreleme işlemleri için gerekli listeler dolduruluyor
-    model_list = Model.objects.order_by('ModelID')
-    category_list = Category.objects.order_by('CategoryID')
+    uav_list = Uav.objects.order_by('uav_id')
+    brand_list = Brand.objects.order_by('brand_id')
+    model_list = Model.objects.order_by('model_id')
+    category_list = Category.objects.order_by('category_id')
     brand_ids = []
     model_ids = []
     category_ids = []
-    if request.method=="POST": 
-        brand_ids = request.POST.getlist('cbBrand') #Tıklanan markaların value (id) listesi alınıyor
+
+    if request.method == "POST":
+        brand_ids = request.POST.getlist('cbBrand')
         model_ids = request.POST.getlist('cbModel')
         category_ids = request.POST.getlist('cbCategory')
-        if len(brand_ids) == 0 and len(model_ids) == 0 and len(category_ids) == 0: #Hiçbir seçim yapılmadan filtreleme yapılırsa bütün İHA'lar getiriliyor 
-            uav_list = Uav.objects.order_by('UavID') 
+
+        if not brand_ids and not model_ids and not category_ids:
+            uav_list = Uav.objects.order_by('uav_id')
         else:
-            uav_list = Uav.objects.filter(BrandID__in = brand_ids) | Uav.objects.filter(ModelID__in = model_ids) | Uav.objects.filter(CategoryID__in = category_ids)
-                        #Filtreleme yapılarak id'si, tıklanan markaların id'si olan İHA'lar getiriliyor. Bu işlem model ve kategori içinde yapılıyor.
-      
+            uav_list = Uav.objects.filter(brand_id__in=brand_ids) | Uav.objects.filter(model_id__in=model_ids) | Uav.objects.filter(category_id__in=category_ids)
 
     context = {
         'uav_list': uav_list,
@@ -51,17 +34,14 @@ def index(request):
         'model_list': model_list,
         'category_list': category_list,
     }
-  
 
     return render(request, 'index.html', context)
 
-  
-
-
-#Formdan alınan bilgilerle kayıt işleminin yapılması
+# Formdan alınan bilgilerle kayıt işleminin yapılması
 def signup(request):
     if request.user.is_authenticated:
         return redirect('/')
+    
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -76,19 +56,19 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
         return render(request, 'signup.html', {'form': form})
-    
 
-#Giriş işleminin yapılması
+# Giriş işleminin yapılması
 def signin(request):
     if request.user.is_authenticated:
         return render(request, 'home.html')
+    
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/profile') 
+            return redirect('/profile')
         else:
             msg = 'Error Login'
             form = AuthenticationForm(request.POST)
@@ -96,100 +76,96 @@ def signin(request):
     else:
         form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
- 
-def profile(request): 
+
+def profile(request):
     return render(request, 'profile.html')
-  
-#Çıkış işleminin yapılması
+
+# Çıkış işleminin yapılması
 def signout(request):
     logout(request)
     return redirect('/')
 
-#Anasayfada kiralama butonuna tıklanmasıyla beraber kiralama işleminin yapılacağı sayfada İHA bilgilerinin görüntülenmesi
+# Anasayfada kiralama butonuna tıklanmasıyla beraber kiralama işleminin yapılacağı sayfada İHA bilgilerinin görüntülenmesi
 def rental(request, id):
     uav = get_object_or_404(Uav, pk=id)
     context = {'uav': uav}
     return render(request, 'rental.html', context)
 
-#Formdan İHA,müşteri ve tarih-zaman bilgilerinin alınmasıyla beraber kiralama işlemi yapılmaktadır ve mevcut kiralama
-#bilgilerinin listelendiği sayfaya yönlendirme işlemi yapılmıştır.
-
-def createRental(request):
+# Formdan İHA, müşteri ve tarih-zaman bilgilerinin alınmasıyla beraber kiralama işlemi yapılmaktadır ve mevcut kiralama
+# bilgilerinin listelendiği sayfaya yönlendirme işlemi yapılmıştır.
+def create_rental(request):
     if request.method == 'POST':
         # datetime stringlerini datetime objelerine dönüştürme
-        begin_date = datetime.strptime(request.POST['BeginDate'], '%Y-%m-%dT%H:%M')
-        end_date = datetime.strptime(request.POST['EndDate'], '%Y-%m-%dT%H:%M')
+        begin_date = datetime.strptime(request.POST['begin_date'], '%Y-%m-%dT%H:%M')
+        end_date = datetime.strptime(request.POST['end_date'], '%Y-%m-%dT%H:%M')
 
         # datetime objelerini timezone-aware yapma
         begin_date = timezone.make_aware(begin_date, timezone.get_current_timezone())
         end_date = timezone.make_aware(end_date, timezone.get_current_timezone())
 
         rental = Rental(
-            UavID=Uav.objects.get(UavID=request.POST['UavID']),
-            CustomerID=request.POST['CustomerID'],
-            BeginDate=begin_date,
-            EndDate=end_date
+            uav=Uav.objects.get(uav_id=request.POST['uav_id']),
+            customer_id=request.POST['customer_id'],
+            begin_date=begin_date,
+            end_date=end_date
         )
         rental.save()
         
-        save_to_excel(rental,request)
-        send_email_task.delay('Kiralama Onayı', 'Kiralama işleminiz başarıyla tamamlanmıştır', ['ufukcaglayan96@gmail.com']) #kullanıcıya mail gönderme işlemi kuyruğa alınmıştır
-    return redirect('/myrental/' + request.POST['CustomerID'])
-
+        save_to_excel(rental, request)
+        send_email_task.delay('Kiralama Onayı', 'Kiralama işleminiz başarıyla tamamlanmıştır', [request.user.email])  # kullanıcıya mail gönderme işlemi kuyruğa alınmıştır
+    return redirect('/myrental/' + request.POST['customer_id'])
 
 def save_to_excel(rental, request):
     username = request.user.username
-    uav = get_object_or_404(Uav, pk=rental.UavID.UavID)
-    brand_model = uav.BrandID.BrandName + ' ' + uav.ModelID.ModelName
-    begin_date = rental.BeginDate.replace(tzinfo=None)
-    end_date = rental.EndDate.replace(tzinfo=None)
-    save_to_excel.delay(username,brand_model,begin_date,end_date) #raporlama işlemi kuyruğa alınmıştır
-      
+    uav = get_object_or_404(Uav, pk=rental.uav.uav_id)
+    brand_model = uav.brand.brand_name + ' ' + uav.model.model_name
+    begin_date = rental.begin_date.strftime("%Y-%m-%dT%H:%M:%S")
+    end_date = rental.end_date.strftime("%Y-%m-%dT%H:%M:%S")
+    save_to_excel.delay(username, brand_model, begin_date, end_date)  # raporlama işlemi kuyruğa alınmıştır
 
-#Kiralama kayıtlarının gösterilmesi
+# Kiralama kayıtlarının gösterilmesi
 @csrf_exempt
-def myrental(request, id):
-    rentals = Rental.objects.filter(CustomerID=id)
+def my_rental(request, id):
+    rentals = Rental.objects.filter(customer_id=id)
     context = {'rentals': rentals}
     return render(request, 'myrental.html', context)
 
-#Listenen tıklanan kiralama kaydının düzenleme sayfasında doldurulması.
-#Bu işlem sırasında tarih ve saat bilgileri inputların algılayabileceği şekilde formatlanmıştır.
-def editRental(request, id):
+# Listenen tıklanan kiralama kaydının düzenleme sayfasında doldurulması.
+# Bu işlem sırasında tarih ve saat bilgileri inputların algılayabileceği şekilde formatlanmıştır.
+def edit_rental(request, id):
     rental = get_object_or_404(Rental, pk=id)
-    beginDate = rental.BeginDate.strftime("%Y-%m-%dT%H:%M:%S")
-    rental.BeginDate = beginDate 
-    endDate = rental.EndDate.strftime("%Y-%m-%dT%H:%M:%S")
-    rental.EndDate = endDate 
+    begin_date = rental.begin_date.strftime("%Y-%m-%dT%H:%M:%S")
+    rental.begin_date = begin_date
+    end_date = rental.end_date.strftime("%Y-%m-%dT%H:%M:%S")
+    rental.end_date = end_date
     context = {
         'rental': rental
     }
     return render(request, 'rentaledit.html', context)
 
-#Tarih ve saat bilgilerinin değiştirilmesiyle beraber kiralama kaydının güncellenmesiç
+# Tarih ve saat bilgilerinin değiştirilmesiyle beraber kiralama kaydının güncellenmesi
 @csrf_exempt
-def updateRental(request):
-    rental = get_object_or_404(Rental, pk=request.POST['RentalID'])
-    rental.BeginDate = request.POST['BeginDate']
-    rental.EndDate = request.POST['EndDate']
+def update_rental(request):
+    rental = get_object_or_404(Rental, pk=request.POST['rental_id'])
+    rental.begin_date = request.POST['begin_date']
+    rental.end_date = request.POST['end_date']
     rental.save()
-    return redirect('/myrental/' + request.POST['CustomerID'])
+    return redirect('/myrental/' + request.POST['customer_id'])
 
-#Kiralama kaydının silinmesinin sorulması
+# Kiralama kaydının silinmesinin sorulması
 @csrf_exempt
-def confirmDelete(request, id):
+def confirm_delete(request, id):
     rental = get_object_or_404(Rental, pk=id)
     context = {'rental': rental}
-    return render(request, 'confirmDelete.html', context)
+    return render(request, 'confirm_delete.html', context)
 
-#Kiralama kaydının silinmesi
+# Kiralama kaydının silinmesi
 @csrf_exempt
-def deleteRental(request):
-    rental = get_object_or_404(Rental, pk=request.POST['RentalID'])
-    rental.delete()  
-    return redirect('/myrental/' + request.POST['CustomerID'])
+def delete_rental(request):
+    rental = get_object_or_404(Rental, pk=request.POST['rental_id'])
+    rental.delete()
+    return redirect('/myrental/' + request.POST['customer_id'])
 
-
-#Admin kullanıcı kontrolü
-def isAdmin(user):
+# Admin kullanıcı kontrolü
+def is_admin(user):
     return user.is_superuser

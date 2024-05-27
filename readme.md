@@ -8,7 +8,7 @@ Listelenmiş olan İHA'ların yanında bulunan kirala butonuna basılarak tarih 
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/22258c3c-c7ce-4ead-b414-61c308a83159)
 
-Kiralama işleminden sonra kişiye ait mevcut kiralama kayıtları listelenmektedir.
+Kiralama işleminden sonra kuyruklama yöntemiyle kullanıcıya mail gönderilmektedir ve raporlarlama için excell'de kayıt tutulmaktadır. Bunun yanında kişiye ait mevcut kiralama kayıtları sayfada listelenmektedir.
 
 ![image](https://github.com/UfukCaglayan/UAVRental/assets/22642119/6a997b7d-6dbb-49d1-9498-858833de6e6c)
 
